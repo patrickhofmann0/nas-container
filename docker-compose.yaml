@@ -10,4 +10,35 @@ services:
     environment:
       POSTGRES_DB: paperless
       POSTGRES_USER: paperless
-      POSTGRES_PASSWORD: stack.env.paperless_postgres_password
+      POSTGRES_PASSWORD: stack.env.PAPERLESS_POSTGRES_PASSWORD
+
+  paperless-broker:
+    image: redis
+    container_name: Paperless-NGX-REDIS
+    restart: always
+    volumes:
+      - /volume1/docker/paperlessngx/redis:/data
+
+  paperless-webserver:
+    image: ghcr.io/paperless-ngx/paperless-ngx:latest
+    container_name: Paperless-NGX
+    restart: always
+    depends_on:
+      - paperless-db
+      - paperless-broker
+    ports:
+      - 8777:8000
+    volumes:
+      - /volume1/docker/paperlessngx/data:/usr/src/paperless/data
+      - /volume1/docker/paperlessngx/media:/usr/src/paperless/media
+      - /volume1/docker/paperlessngx/export:/usr/src/paperless/export
+      - /volume1/docker/paperlessngx/consume:/usr/src/paperless/consume
+    environment:
+      PAPERLESS_REDIS: paperless-redis://broker:6379
+      PAPERLESS_DBHOST: paperless-db
+      USERMAP_UID: 1026
+      USERMAP_GID: 100
+      PAPERLESS_TIME_ZONE: Europe/Bucharest
+      PAPERLESS_ADMIN_USER: stack.env.PAPERLESS_ADMIN_USER
+      PAPERLESS_ADMIN_PASSWORD: stack.env.PAPERLESS_ADMIN_PASSWORD
+      PAPERLESS_OCR_LANGUAGE: deu+eng
