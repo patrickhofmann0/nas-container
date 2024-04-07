@@ -36,6 +36,7 @@ services:
     environment:
       PAPERLESS_REDIS: redis://paperless-broker:6379
       PAPERLESS_DBHOST: paperless-db
+      PAPERLESS_DBPASS: stack.env.PAPERLESS_POSTGRES_PASSWORD
       USERMAP_UID: 1026
       USERMAP_GID: 100
       PAPERLESS_TIME_ZONE: Europe/Bucharest
