@@ -34,7 +34,7 @@ services:
       - /volume1/docker/paperlessngx/export:/usr/src/paperless/export
       - /volume1/docker/paperlessngx/consume:/usr/src/paperless/consume
     environment:
-      PAPERLESS_REDIS: paperless-redis://broker:6379
+      PAPERLESS_REDIS: redis://broker:6379
       PAPERLESS_DBHOST: paperless-db
       USERMAP_UID: 1026
       USERMAP_GID: 100
