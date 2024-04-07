@@ -1,0 +1,13 @@
+version: "3.7"
+
+services:
+  paperless-db:
+    image: postgres
+    container_name: Paperless-NGX-DB
+    restart: always
+    volumes:
+      - /volume1/docker/paperlessngx/db:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: paperless
+      POSTGRES_USER: paperless
+      POSTGRES_PASSWORD: stack.env.paperless_postgres_password
